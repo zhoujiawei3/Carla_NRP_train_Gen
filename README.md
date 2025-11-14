@@ -13,6 +13,22 @@ Files
 - `script.sh` — Example batch script that runs mask generation and multiple color variants. It defines a `VEHICLE` variable which is passed to the Python scripts.
 - `get_label.py` — Convert mask images into YOLO-format label `.txt` files. Accepts `--input_dir` and `--output_dir`.
 
+
+Recommended (quick start)
+-------------------------
+如果你只是想一键生成整个数据集（mask -> labels -> RGB），推荐直接运行仓库内的 `script.sh`：
+
+```bash
+./script.sh
+```
+
+脚本会按顺序：
+- 生成语义分割 masks（调用 `base_1world_DTN_9_mask.py`）
+- 从 masks 生成 YOLO 格式的 label（调用 `get_label.py`）
+- 为多种颜色运行 RGB 采集（调用 `base_1world_DTN_9.py` 多次）
+
+在运行前可编辑 `script.sh` 顶部的 `VEHICLE` 与 `output_dir` 变量以指定车型与输出目录。
+
 Usage
 -----
 Run the scripts from the `DTN_train_generate` directory. Examples below assume a bash-like shell.
@@ -28,8 +44,6 @@ Generate RGB images for one color and vehicle:
 ```bash
 python base_1world_DTN_9.py --color 255,255,255 --output_dir "C:/outputs/DTN/" --vehicle "vehicle.tesla.model3"
 ```
-
-Use the provided `script.sh` to run a batch for multiple colors. Edit the `VEHICLE` variable at the top of `script.sh` to change the vehicle model used for all runs.
 
 Generate YOLO labels from masks (after running the mask script):
 
